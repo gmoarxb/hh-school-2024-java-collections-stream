@@ -2,9 +2,11 @@ package tasks;
 
 import common.Person;
 import common.PersonService;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
 Задача 1
@@ -23,6 +25,14 @@ public class Task1 {
 
   public List<Person> findOrderedPersons(List<Integer> personIds) {
     Set<Person> persons = personService.findPersons(personIds);
-    return Collections.emptyList();
+    Map<Integer, Person> map = new HashMap<>();
+    for (Person person : persons) {
+      map.put(person.id(), person);
+    }
+    List<Person> result = new ArrayList<>(personIds.size());
+    for (Integer id : personIds) {
+      result.add(map.get(id));
+    }
+    return result;
   }
 }

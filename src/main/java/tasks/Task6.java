@@ -4,6 +4,7 @@ import common.Area;
 import common.Person;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,6 +20,17 @@ public class Task6 {
   public static Set<String> getPersonDescriptions(Collection<Person> persons,
                                                   Map<Integer, Set<Integer>> personAreaIds,
                                                   Collection<Area> areas) {
-    return new HashSet<>();
+    Set<String> result = new HashSet<>();
+    Map<Integer, Area> map = new HashMap<>();
+    for (Area area : areas) {
+      map.put(area.getId(), area);
+    }
+    for (Person person : persons) {
+      Set<Integer> areaIds = personAreaIds.get(person.id());
+      for (Integer areaId : areaIds) {
+        result.add(person.firstName() + " - " + map.get(areaId).getName());
+      }
+    }
+    return result;
   }
 }

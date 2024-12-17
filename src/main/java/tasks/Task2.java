@@ -16,6 +16,13 @@ public class Task2 {
   public static List<Person> combineAndSortWithLimit(Collection<Person> persons1,
                                                      Collection<Person> persons2,
                                                      int limit) {
-    return new ArrayList<>();
+    List<Person> merged = new ArrayList<>();
+    merged.addAll(persons1);
+    merged.addAll(persons2);
+    merged.sort((Person o1, Person o2) -> o1.createdAt().compareTo(o2.createdAt()));
+    if (merged.size() < limit) {
+      return merged;
+    }
+    return merged.subList(0, limit);
   }
 }
