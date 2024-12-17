@@ -5,6 +5,7 @@ import common.PersonService;
 import common.PersonWithResumes;
 import common.Resume;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 /*
@@ -21,7 +22,22 @@ public class Task8 {
   }
 
   public Set<PersonWithResumes> enrichPersonsWithResumes(Collection<Person> persons) {
-    Set<Resume> resumes = personService.findResumes(Set.of());
-    return Set.of();
+    Set<Integer> personIds = new HashSet<>();
+    for (Person person : persons) {
+      personIds.add(person.id());
+    }
+    Set<Resume> resumes = personService.findResumes(personIds);
+
+    Set<PersonWithResumes> result = new HashSet<>();
+    for (Person person : persons) {
+      Set<Resume> personResumes = new HashSet<>();
+      for (Resume resume : resumes) {
+        if (resume.personId() == person.id()) {
+          personResumes.add(resume);
+        }
+      }
+      result.add(new PersonWithResumes(person, personResumes));
+    }
+    return result;
   }
 }
